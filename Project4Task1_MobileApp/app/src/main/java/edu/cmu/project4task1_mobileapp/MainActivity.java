@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -22,10 +23,10 @@ import java.util.TreeMap;
 
 public class MainActivity extends AppCompatActivity {
 
-    MainActivity ma = this;
+    MainActivity me = this;
     EditText amount;
     Spinner category, difficulty, type;
-    ScrollView questions;
+    TextView questions;
     Button submitButton;
     String a,c,d,t;
     String myURL="";
@@ -35,8 +36,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        amount = (EditText)findViewById(R.id.editTextNumberOfQuestions);
-        category = (Spinner)findViewById(R.id.spinnerCategory);
+        final MainActivity ma = this;
+
+        // I think we need a GetCategories class that runs in background (similar to GetQuestions)
+        // and that class has a call here to get the categories to populate the spinner
+
+        amount = (EditText) findViewById(R.id.editTextNumberOfQuestions);
+        category = (Spinner) findViewById(R.id.spinnerCategory);
         // location of finding how to add items to a static spinner:
         // https://www.tutorialspoint.com/how-can-i-add-items-to-a-spinner-in-android
         difficulty = (Spinner) findViewById(R.id.spinnerDifficulty);
@@ -51,8 +57,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 d = adapterView.getItemAtPosition(i).toString();
+                // Verify selection is actually registering
                 Toast.makeText(adapterView.getContext(), "Selected: " + d, Toast.LENGTH_SHORT).show();
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
@@ -68,28 +76,36 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 t = adapterView.getItemAtPosition(i).toString();
+                // Verify selection is actually registering
                 Toast.makeText(adapterView.getContext(), "Selected: " + t, Toast.LENGTH_SHORT).show();
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
-        questions = (ScrollView) findViewById(R.id.questionView);
-        submitButton = (Button)findViewById(R.id.buttonSubmit);
-
-        final MainActivity me = this;
+        questions = (TextView) findViewById(R.id.questionsView);
+        submitButton = (Button) findViewById(R.id.buttonSubmit);
 
         // used the following video tutorial for figuring out how to verify inputs are registering:
         // https://www.youtube.com/watch?v=xPi-z3nOcn8
-        submitButton.setOnClickListener(new View.OnClickListener(){
+        submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View viewParam){
+            public void onClick(View viewParam) {
                 a = amount.getText().toString();
                 c = category.getTransitionName();
+                // Verify selection is actually registering
                 Toast.makeText(MainActivity.this, "You have chose: " + d + " " + t + " " + a, Toast.LENGTH_LONG).show();
+                GetQuestions gq = new GetQuestions();
+                gq.search(/*params will go here*/ me, ma);
+
             }
         });
-
     }
+
+        public void questionsReady(){
+            questions.setText("This will be questions");
+            questions.setVisibility(View.VISIBLE);
+        }
 
 }
