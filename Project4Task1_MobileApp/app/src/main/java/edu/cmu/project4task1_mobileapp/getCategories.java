@@ -4,15 +4,35 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.TreeMap;
 
 public class getCategories {
     MainActivity ma = null;
-    TreeMap<String, Integer> catMap = new TreeMap<>();
+    HashMap<String, Integer> catMap = new HashMap<>();
 
-    public String getAPICategories() throws IOException {
+    public HashMap<String, Integer> doGetCategories() throws IOException {
+        URL url = new URL("http://localhost:9090/Project4Task2-1.0-SNAPSHOT/getCategories");
+        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        urlConnection.setRequestMethod("GET");
+        int responseCode = urlConnection.getResponseCode();
+        if (responseCode == urlConnection.HTTP_OK) {
+            BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+            StringBuffer response = new StringBuffer();
+            String inLine;
+            while ((inLine = in.readLine()) != null) {
+                response.append(inLine);
+            }
+            in.close();
+            System.out.println("Response: ");
+            System.out.println(response);
+        }
+        return catMap;
+    }
+
+    /*public String getAPICategories() throws IOException {
         URL url = new URL("https://opentdb.com/api_category.php");
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         urlConnection.setRequestMethod("GET");
@@ -52,9 +72,5 @@ public class getCategories {
             String[] parts = line.split( "," );
         }
         return catMap;
-    }
-
-    /*public static void mapToXML(HashMap<String, Integer> map){
-
     }*/
 }
