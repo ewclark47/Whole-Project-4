@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
         // I think we need a GetCategories class that runs in background (similar to GetQuestions)
         // and that class has a call here to get the categories to populate the spinner
+        GetCategories gc = new GetCategories();
+        gc.getCategories(me, ma);
 
         amount = (EditText) findViewById(R.id.editTextNumberOfQuestions);
         category = (Spinner) findViewById(R.id.spinnerCategory);
@@ -93,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View viewParam) {
                 a = amount.getText().toString();
-                c = category.getTransitionName();
                 // Verify selection is actually registering
                 Toast.makeText(MainActivity.this, "You have chose: " + d + " " + t + " " + a, Toast.LENGTH_LONG).show();
                 GetQuestions gq = new GetQuestions();
@@ -102,6 +103,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+        public void categoriesReady(ArrayList<String> categoryList){
+            ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, categoryList);
+            categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            category.setAdapter(categoryAdapter);
+            category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    c = adapterView.getItemAtPosition(i).toString();
+                    // Verify selection is actually registering
+                    Toast.makeText(adapterView.getContext(), "Selected: " + c, Toast.LENGTH_SHORT).show();
+                }
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+                }
+            });
+        }
 
         public void questionsReady(){
             questions.setText("This will be questions");
