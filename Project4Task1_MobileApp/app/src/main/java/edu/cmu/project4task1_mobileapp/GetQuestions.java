@@ -71,14 +71,12 @@ public class GetQuestions {
         private String search(String amount, String category, String difficulty, String type) throws IOException {
             String questions="";
             // do the calling to the api in here
-            URL url = new URL("http://localhost:9090/getQuestions");
+            URL url = new URL("http://10.0.2.2:9090/Project4Task2-1.0-SNAPSHOT/getQuestions?amount="+amount+"&category="+
+                    category+"&difficulty="+difficulty+"&type="+type); // Category needs to be a NUMBER
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
-            urlConnection.addRequestProperty("amount", amount);
-            urlConnection.addRequestProperty("category", category);
-            urlConnection.addRequestProperty("difficulty", difficulty);
-            urlConnection.addRequestProperty("type", type);
             int responseCode = urlConnection.getResponseCode();
+            String message = urlConnection.getResponseMessage();
             if(responseCode == urlConnection.HTTP_OK){
                 BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 StringBuffer response = new StringBuffer();

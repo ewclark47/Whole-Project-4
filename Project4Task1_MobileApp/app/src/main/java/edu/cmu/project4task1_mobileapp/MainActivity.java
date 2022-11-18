@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     TextView questions;
     Button submitButton;
     String a,c,d,t;
-    String myURL="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,14 +102,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-        public void categoriesReady(ArrayList<String> categoryList){
+        public void categoriesReady(ArrayList<String> categoryList, ArrayList<String> categoryNumberList){
             ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categoryList);
             categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             category.setAdapter(categoryAdapter);
             category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    c = adapterView.getItemAtPosition(i).toString();
+                    c = categoryNumberList.get(i);
                     // Verify selection is actually registering
                     Toast.makeText(adapterView.getContext(), "Selected: " + c, Toast.LENGTH_SHORT).show();
                 }
