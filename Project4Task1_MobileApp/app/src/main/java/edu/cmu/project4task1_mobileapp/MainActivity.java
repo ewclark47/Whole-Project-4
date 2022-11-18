@@ -1,25 +1,24 @@
+/*
+Name: Elliott Clark and Eric Ryu
+AndrewID: elliottc and ericryu
+MainActivity.java
+ */
+
 package edu.cmu.project4task1_mobileapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ScrollView;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeMap;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,16 +42,16 @@ public class MainActivity extends AppCompatActivity {
         GetCategories gc = new GetCategories();
         gc.getCategories(me, ma);
 
-        amount = (EditText) findViewById(R.id.editTextNumberOfQuestions);
-        category = (Spinner) findViewById(R.id.spinnerCategory);
+        amount = findViewById(R.id.editTextNumberOfQuestions);
+        category = findViewById(R.id.spinnerCategory);
         // location of finding how to add items to a static spinner:
         // https://www.tutorialspoint.com/how-can-i-add-items-to-a-spinner-in-android
-        difficulty = (Spinner) findViewById(R.id.spinnerDifficulty);
+        difficulty = findViewById(R.id.spinnerDifficulty);
         ArrayList<String> difficultyList = new ArrayList<>();
         difficultyList.add("Easy");
         difficultyList.add("Medium");
         difficultyList.add("Hard");
-        ArrayAdapter<String> difficultyAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, difficultyList);
+        ArrayAdapter<String> difficultyAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, difficultyList);
         difficultyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         difficulty.setAdapter(difficultyAdapter);
         difficulty.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -67,11 +66,11 @@ public class MainActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
-        type = (Spinner) findViewById(R.id.spinnerQuestionType);
+        type = findViewById(R.id.spinnerQuestionType);
         ArrayList<String> typeList = new ArrayList<>();
         typeList.add("Multiple Choice");
         typeList.add("True/False");
-        ArrayAdapter<String> typeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, typeList);
+        ArrayAdapter<String> typeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, typeList);
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         type.setAdapter(typeAdapter);
         type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -86,8 +85,8 @@ public class MainActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
-        questions = (TextView) findViewById(R.id.questionsView);
-        submitButton = (Button) findViewById(R.id.buttonSubmit);
+        questions = findViewById(R.id.questionsView);
+        submitButton = findViewById(R.id.buttonSubmit);
 
         // used the following video tutorial for figuring out how to verify inputs are registering:
         // https://www.youtube.com/watch?v=xPi-z3nOcn8
@@ -98,14 +97,14 @@ public class MainActivity extends AppCompatActivity {
                 // Verify selection is actually registering
                 Toast.makeText(MainActivity.this, "You have chose: " + d + " " + t + " " + a, Toast.LENGTH_LONG).show();
                 GetQuestions gq = new GetQuestions();
-                gq.search(/*params will go here*/ me, ma);
+                gq.search(a, c, d, t, me, ma);
 
             }
         });
     }
 
         public void categoriesReady(ArrayList<String> categoryList){
-            ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, categoryList);
+            ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categoryList);
             categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             category.setAdapter(categoryAdapter);
             category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
