@@ -14,10 +14,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class GetQuestions {
     MainActivity main = null;
-    String questions; // maybe this is a JSON, not 100% sure yet
+    String questions;
     String amount, category, difficulty, type;
 
     public void search(String amount, String category, String difficulty, String type, Activity activity, MainActivity main){
@@ -65,11 +66,21 @@ public class GetQuestions {
         }
 
         public void onPostExecute(){
-            main.questionsReady(/* the final output we want back in app goes here */);
+            main.questionsReady(questions);
         }
 
         private String search(String amount, String category, String difficulty, String type) throws IOException {
-            String questions="";
+            /*System.out.println("Amount: ");
+            System.out.println(amount);
+            System.out.println("Category: ");
+            System.out.println(category);
+            System.out.println("Difficulty: ");
+            System.out.println(difficulty);
+            System.out.println("Type: ");
+            System.out.println(type);*/
+
+            String questions = "";
+            String preQ= "";
             // do the calling to the api in here
             URL url = new URL("http://10.0.2.2:9090/Project4Task2-1.0-SNAPSHOT/getQuestions?amount="+amount+"&category="+
                     category+"&difficulty="+difficulty+"&type="+type); // Category needs to be a NUMBER
@@ -85,8 +96,16 @@ public class GetQuestions {
                     response.append(inLine);
                 }
                 in.close();
-                System.out.println("Received Questions: ");
-                System.out.println(response.toString());
+                System.out.println("Questions JSON received for use in Write Up: ");
+                preQ = response.toString();
+                preQ = preQ.replace("\\","").replace("\"\"{\"response_code\":0,\"results\":[", "");
+                System.out.println(preQ);
+                String [] sepQs = preQ.split("[\\,}]");
+                for (String q : sepQs){
+                    //System.out.println(q.replace("{", "").replace("}",""));
+                    questions += q.replace("{", "").replace("}","") + "\n";
+                }
+                //System.out.println(questions);
             }
             return questions;
         }

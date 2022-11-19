@@ -56,9 +56,9 @@ public class MainActivity extends AppCompatActivity {
         difficulty.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                d = adapterView.getItemAtPosition(i).toString();
+                d = adapterView.getItemAtPosition(i).toString().toLowerCase();
                 // Verify selection is actually registering
-                Toast.makeText(adapterView.getContext(), "Selected: " + d, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(adapterView.getContext(), "Selected: " + d, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -75,9 +75,13 @@ public class MainActivity extends AppCompatActivity {
         type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                t = adapterView.getItemAtPosition(i).toString();
+                if (adapterView.getItemAtPosition(i).toString() == "Multiple Choice") {
+                    t = "multiple";
+                }else{
+                    t = "boolean";
+                }
                 // Verify selection is actually registering
-                Toast.makeText(adapterView.getContext(), "Selected: " + t, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(adapterView.getContext(), "Selected: " + t, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -94,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View viewParam) {
                 a = amount.getText().toString();
                 // Verify selection is actually registering
-                Toast.makeText(MainActivity.this, "You have chose: " + d + " " + t + " " + a, Toast.LENGTH_LONG).show();
+                //Toast.makeText(MainActivity.this, "You have chose: " + d + " " + t + " " + a, Toast.LENGTH_LONG).show();
                 GetQuestions gq = new GetQuestions();
                 gq.search(a, c, d, t, me, ma);
 
@@ -111,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     c = categoryNumberList.get(i);
                     // Verify selection is actually registering
-                    Toast.makeText(adapterView.getContext(), "Selected: " + c, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(adapterView.getContext(), "Selected: " + c, Toast.LENGTH_SHORT).show();
                 }
                 @Override
                 public void onNothingSelected(AdapterView<?> adapterView) {
@@ -119,8 +123,8 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        public void questionsReady(){
-            questions.setText("This will be questions");
+        public void questionsReady(String q){
+            questions.setText(q);
             questions.setVisibility(View.VISIBLE);
         }
 

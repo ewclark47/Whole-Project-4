@@ -14,12 +14,14 @@ import jakarta.servlet.annotation.*;
 public class TriviaServlet extends HttpServlet {
 
     TriviaModel triviaModel = null;  // The "business model" for this app
+    DatabaseHandling db = null;
     Gson gson = new Gson();
 
     // Initiate this servlet by instantiating the model that it will use.
     @Override
     public void init() {
         triviaModel = new TriviaModel();
+        db = new DatabaseHandling();
     }
 
     // This servlet will reply to HTTP GET requests via this doGet method
@@ -27,7 +29,9 @@ public class TriviaServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response)
             throws ServletException, IOException {
-
+        long startTime, endTime, totalTime;
+        startTime = System.currentTimeMillis();
+        String connectType;
         String amount = request.getParameter("amount");
         String category = request.getParameter("category");
         String difficulty = request.getParameter("difficulty");
@@ -40,33 +44,32 @@ public class TriviaServlet extends HttpServlet {
         // prepare the appropriate DOCTYPE for the view pages
         if (ua != null && ((ua.indexOf("Android") != -1) || (ua.indexOf("iPhone") != -1))) {
             mobile = true;
-            /*
-             * This is the latest XHTML Mobile doctype. To see the difference it
-             * makes, comment it out so that a default desktop doctype is used
-             * and view on an Android or iPhone.
-             */
+            connectType = "Mobile";
             request.setAttribute("doctype", "<!DOCTYPE html PUBLIC \"-//WAPFORUM//DTD XHTML Mobile 1.2//EN\" \"http://www.openmobilealliance.org/tech/DTD/xhtml-mobile12.dtd\">");
         } else {
             mobile = false;
+            connectType = "Desktop";
             request.setAttribute("doctype", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">");
         }
-
-        String nextView;
         /*
          * Check if the search parameter is present.
          * If not, then give the user instructions and prompt for a search string.
          * If there is a search parameter, then do the search and return the result.
          */
         if (amount != null && category != null && difficulty != null && type != null) {
-            String questions = triviaModel.getQuestions(amount, category, difficulty, type);
-            request.setAttribute("questions", questions);
-            nextView = "index.jsp";
-        } else {
-            nextView = "prompt.jsp";
+            String questions = gson.toJson(triviaModel.getQuestions(amount, category, difficulty, type));
+            PrintWriter out = response.getWriter();
+            response.setContentType( "application/json" );
+            response.setCharacterEncoding( "UTF-8" );
+            out.print(gson.toJson( questions ));
+            out.flush();
+            out.close();
+            endTime = System.currentTimeMillis();
+            totalTime = endTime-startTime;
+            db.addDataToDatabase( category, amount, type, difficulty, String.valueOf( totalTime ), connectType );
+            }else{
+            System.out.println("Error with input parameters: not all present");
         }
-
-        RequestDispatcher view = request.getRequestDispatcher(nextView);
-        view.forward(request, response);
     }
 }
 

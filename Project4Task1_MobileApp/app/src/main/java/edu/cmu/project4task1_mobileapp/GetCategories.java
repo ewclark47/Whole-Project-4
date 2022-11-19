@@ -100,7 +100,6 @@ public class GetCategories {
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
             int responseCode = urlConnection.getResponseCode();
-            System.out.println("GET Response code :: " + responseCode);
             if(responseCode == urlConnection.HTTP_OK) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 StringBuffer response = new StringBuffer();
@@ -109,6 +108,8 @@ public class GetCategories {
                     response.append(inLine);
                 }
                 in.close();
+                System.out.println("Category JSON received for use in Write Up: ");
+                System.out.println(response.toString());
                 String[] str = response.toString().split(",");
                 for (int i = 0; i < str.length; i++) {
                     if (i % 2 != 0) {
