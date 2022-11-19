@@ -5,3 +5,5 @@ Distributed Systems Project 4 - Android App with Web Service Dashboard deployed 
 This application takes parameters of category, number of questions, difficulty and type of questions from the user 
 and provides them with questions from the Open Trivia Database API (https://opentdb.com/api_config.php) 
 which is brought to us from the good folks at PIXELTAIL GAMES LLC.
+
+<img src="/screenshots/Task 2 Layout.jpg" alt="Android App Layout" title="Android App Layout">
