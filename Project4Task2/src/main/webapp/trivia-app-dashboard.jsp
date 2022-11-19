@@ -1,7 +1,7 @@
 <!--
 Name: Elliott Clark and Eric Ryu
 AndrewID: elliottc and ericryu
-index.jsp
+trivia-app-dashboard.jsp
 -->
 
 <%@ page import="com.example.project4task2.DatabaseHandling" %>
