@@ -82,7 +82,7 @@ public class GetQuestions {
             String questions = "";
             String preQ= "";
             // do the calling to the api in here
-            URL url = new URL("http://10.0.2.2:9090/Project4Task2-1.0-SNAPSHOT/getQuestions?amount="+amount+"&category="+
+            URL url = new URL("https://limitless-plains-67143.herokuapp.com/getQuestions?amount="+amount+"&category="+
                     category+"&difficulty="+difficulty+"&type="+type); // Category needs to be a NUMBER
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");

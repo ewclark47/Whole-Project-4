@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class GetCategories {
     MainActivity main = null;
@@ -57,12 +58,14 @@ public class GetCategories {
         }
 
         private void doInBackground() throws IOException {
-                categories = getCategories();
-                categoryNumbers = getCategoryNumbers();
+            String categoryString = "General Knowledge,Entertainment: Books,Entertainment: Film,Entertainment: Musicals & Theatres,Entertainment: Television,Entertainment: Video Games,Entertainment: Board Games,Science & Nature,Science: Computers,Science: Mathematics,Mythology,Sports,Geography,History,Politics,Art,Celebrities,Animals,Vehicles,Entertainment: Comics,Science: Gadgets,Entertainment: Japanese Anime & Manga,Entertainment: Cartoon & Animations";
+            categories.addAll(Arrays.asList(categoryString.split(",")));
+            System.out.println(categories);
+            categoryNumbers = getCategoryNumbers();
         }
 
         public void onPostExecute(){
-            main.categoriesReady(categories, categoryNumbers);
+            //main.categoriesReady(categories, categoryNumbers);
         }
 
         private ArrayList<String> getCategoryNumbers() throws IOException {
@@ -94,12 +97,13 @@ public class GetCategories {
             return categoryNumberList;
         }
 
-        private ArrayList<String> getCategories() throws IOException {
+       /* private ArrayList<String> getCategories() throws IOException {
             ArrayList<String> categoryList = new ArrayList<>();
-            URL url = new URL("http://10.0.2.2:9090/Project4Task2-1.0-SNAPSHOT/getCategory"); // this will change to heroku url
+            URL url = new URL("http://limitless-plains-67143.herokuapp.com/getCategory");
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
             int responseCode = urlConnection.getResponseCode();
+            System.out.println("Response Status :: " + responseCode);
             if(responseCode == urlConnection.HTTP_OK) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 StringBuffer response = new StringBuffer();
@@ -111,6 +115,7 @@ public class GetCategories {
                 System.out.println("Category JSON received for use in Write Up: ");
                 System.out.println(response.toString());
                 String[] str = response.toString().split(",");
+                System.out.println(str);
                 for (int i = 0; i < str.length; i++) {
                     if (i % 2 != 0) {
                         categoryList.add(str[i].substring(17, str[i].length() - 5));
@@ -118,6 +123,6 @@ public class GetCategories {
                 }
             }
             return categoryList;
-        }
+        }*/
     }
 }
