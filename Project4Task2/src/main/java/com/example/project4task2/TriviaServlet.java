@@ -1,3 +1,9 @@
+/*
+Name: Elliott Clark and Eric Ryu
+AndrewID: elliottc and ericryu
+TriviaServlet.java
+ */
+
 package com.example.project4task2;
 
 import java.io.IOException;
@@ -66,7 +72,7 @@ public class TriviaServlet extends HttpServlet {
             out.close();
             endTime = System.currentTimeMillis();
             totalTime = endTime-startTime;
-            db.addDataToDatabase( category, amount, type, difficulty, String.valueOf( totalTime ), connectType );
+            db.addDataToDatabase( category, Integer.parseInt( amount ), type, difficulty, totalTime , connectType );
             }else{
             System.out.println("Error with input parameters: not all present");
         }

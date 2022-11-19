@@ -1,3 +1,9 @@
+/*
+Name: Elliott Clark and Eric Ryu
+AndrewID: elliottc and ericryu
+CategoryServlet.java
+ */
+
 package com.example.project4task2;
 
 
