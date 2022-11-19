@@ -21,6 +21,8 @@ public class GetQuestions {
     String questions;
     String amount, category, difficulty, type;
 
+    // The background activity implementation was copied and adjusted from the Android Lab
+
     public void search(String amount, String category, String difficulty, String type, Activity activity, MainActivity main){
         this.main = main;
         // construct the other parameters the same as above
@@ -87,6 +89,7 @@ public class GetQuestions {
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
             int responseCode = urlConnection.getResponseCode();
+            //System.out.println("Response Code: " + responseCode);
             String message = urlConnection.getResponseMessage();
             if(responseCode == urlConnection.HTTP_OK){
                 BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
@@ -96,14 +99,20 @@ public class GetQuestions {
                     response.append(inLine);
                 }
                 in.close();
-                System.out.println("Questions JSON received for use in Write Up: ");
+                //System.out.println("Questions JSON received for use in Write Up: ");
                 preQ = response.toString();
-                preQ = preQ.replace("\\","").replace("\"\"{\"response_code\":0,\"results\":[", "");
-                System.out.println(preQ);
-                String [] sepQs = preQ.split("[\\,}]");
-                for (String q : sepQs){
-                    //System.out.println(q.replace("{", "").replace("}",""));
-                    questions += q.replace("{", "").replace("}","") + "\n";
+                //System.out.println(preQ);
+                if (preQ.contains("\"response_code\\\\\\\":1")){
+                    questions = "Sorry, there are no questions for this category with the desired difficulty and questions type";
+                    //System.out.println(questions);
+                }else {
+                    preQ = preQ.replace("\\", "").replace("\"\"{\"response_code\":0,\"results\":[", "");
+                    //System.out.println(preQ);
+                    String[] sepQs = preQ.split("[\\,}]");
+                    for (String q : sepQs) {
+                        //System.out.println(q.replace("{", "").replace("}",""));
+                        questions += q.replace("{", "").replace("}", "") + "\n";
+                    }
                 }
                 //System.out.println(questions);
             }

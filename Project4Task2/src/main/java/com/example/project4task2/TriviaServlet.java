@@ -58,9 +58,9 @@ public class TriviaServlet extends HttpServlet {
             request.setAttribute("doctype", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">");
         }
         /*
-         * Check if the search parameter is present.
-         * If not, then give the user instructions and prompt for a search string.
-         * If there is a search parameter, then do the search and return the result.
+         * Check if the search parameters are present.
+         * If not, then give the user instructions and prompt that not all parameters are there.
+         * If there is are parameters, then do the search and return the result.
          */
         if (amount != null && category != null && difficulty != null && type != null) {
             String questions = gson.toJson(triviaModel.getQuestions(amount, category, difficulty, type));

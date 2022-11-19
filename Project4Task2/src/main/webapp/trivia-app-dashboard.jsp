@@ -14,7 +14,7 @@ index.jsp
 </head>
 <body>
 <h1> Dashboard </h1>
-<%
+<%  // calling methods to get the analytics to put into the table
     DatabaseHandling dbh = new DatabaseHandling();
     dbh.mongoDBConnect();
     String avgQ = dbh.averageNumQuestions();
@@ -50,7 +50,7 @@ index.jsp
     </tr>
     </thead>
     <tbody>
-        <%
+        <% //Go through the mongo db and make a table row for each document
             String allDocs = dbh.displayDocs( "Trivia App Info" );
             String[] sepDocs = allDocs.split( "\n" );
             for (String doc : sepDocs){

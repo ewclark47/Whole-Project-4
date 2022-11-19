@@ -20,6 +20,8 @@ import java.util.Arrays;
 public class GetCategories {
     MainActivity main = null;
 
+    // The background activity implementation was copied and adjusted from the Android Lab
+
     public void getCategories(Activity activity, MainActivity main){
         this.main = main;
         new BackgroundTask(activity).execute();

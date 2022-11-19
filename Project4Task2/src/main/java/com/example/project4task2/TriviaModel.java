@@ -23,6 +23,7 @@ import com.google.gson.Gson;
 public class TriviaModel {
     Gson gson = new Gson();
 
+    // GET call to the API to get the categories available
     public String getAPICategories() throws IOException {
         String respString;
         URL url = new URL( "https://opentdb.com/api_category.php" );
@@ -48,7 +49,7 @@ public class TriviaModel {
         }
     }
 
-
+    // get the questions from the API based on the user's input
     public String getQuestions(String amount, String category, String difficulty, String type) throws IOException {
         URL url = new URL(
                 "https://opentdb.com/api.php" + "?amount=" + amount + "&category=" + category + "&difficulty=" + difficulty + "&type=" + type

@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     Button submitButton;
     String a,c,d,t;
 
+    // main activity structure based on the Android Lab
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
